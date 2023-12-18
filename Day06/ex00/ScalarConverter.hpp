@@ -17,5 +17,7 @@ public:
         public:
             const char* what() const throw();
     };
+private:
+    ScalarConverter();
 };
  

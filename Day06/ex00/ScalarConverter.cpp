@@ -6,7 +6,7 @@
 /*   By: ubuntu <ubuntu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/03 00:15:21 by ubuntu            #+#    #+#             */
-/*   Updated: 2023/11/05 18:32:21 by ubuntu           ###   ########.fr       */
+/*   Updated: 2023/12/18 14:13:45 by ubuntu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,22 @@ static bool isPrintable(int number)
 
 void  ScalarConverter::convert(const std::string &literal)
 {
+
+    if (literal == "+inf" || literal == "+inff" || literal == "-inf" || literal == "-inff")
+    {
+        std::cout << "char: impossible" << std::endl;
+        std::cout << "int: impossible" << std::endl;
+        std::cout << "float: " << literal << "f" << std::endl;
+        std::cout << "double: " << literal << std::endl;
+        return ;
+    }
+
     double number;
     
     number = std::strtod(literal.c_str(), NULL);
     if (!number)
         return ;
 
-    // trying to convert in char
     try
     {
         if (!isPrintable(number))
@@ -52,7 +61,6 @@ void  ScalarConverter::convert(const std::string &literal)
         std::cerr << "char: " << error.what() << std::endl;
     }
 
-    // trying to convert in int
     try
     {
         if (number > std::numeric_limits<int>::max() || number < std::numeric_limits<int>::min())
@@ -64,7 +72,6 @@ void  ScalarConverter::convert(const std::string &literal)
         std::cerr << "int: " << error.what() << std::endl;
     }
 
-    // trying to convert in float
     try
     {
         if (number > std::numeric_limits<float>::max() || number < std::numeric_limits<float>::min())
@@ -76,7 +83,6 @@ void  ScalarConverter::convert(const std::string &literal)
         std::cerr << "float: " << error.what() << std::endl;
     }
 
-    // Trying to convert in double
     try
     {
         if (number > std::numeric_limits<double>::max() || number < std::numeric_limits<double>::min())
@@ -88,4 +94,5 @@ void  ScalarConverter::convert(const std::string &literal)
         std::cerr << "double: " << error.what() << std::endl;
     }
 
+    
 }

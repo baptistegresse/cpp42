@@ -1,42 +1,20 @@
-#include <iostream>
-#include <string.h>
-
-struct Data
-{
-	std::string s1;
-	std::string s2;
-};
-
-/*
-uintptr_t is an unsigned integer type that is capable of storing a data pointer. Which typically means that it's the same size as a pointer.
-
-It is optionally defined in C++11 and later standards.
-
-A common reason to want an integer type that can hold an architecture's pointer type is to perform integer-specific operations on a pointer, or to obscure the type of a pointer by providing it as an integer "handle".
-*/
-static	uintptr_t	serialize(Data* ptr)
-{
-	return(reinterpret_cast<uintptr_t>(ptr));
-}
-
-static	Data*	deserialize(uintptr_t raw)
-{
-	return(reinterpret_cast<Data *>(raw));
-}
+#include "Serializer.hpp"
 
 int	main(void)
 {
-	Data	salut;
+	Data data;
 
-	salut.s1 = "Hola";
-	salut.s2 = "Mundo";
+	data.a = 23;
+	data.b = 'c';
+	data.c = 23.23;
 
-	uintptr_t	serialized_ptr = serialize(&salut);
+	uintptr_t dataserialize = Serializer::serialize(&data);
 
-	std::cout << "Salut (serialized): " << serialized_ptr << std::endl;
+	std::cout << dataserialize << std::endl;
 
-	Data	*ptr = deserialize(serialized_ptr);
+	Data *newData = Serializer::deserialize(dataserialize);
 
-	std::cout << "Salut (deserialized): " << ptr->s1 << " " << ptr->s2 << std::endl;
+	std::cout << newData->a << " " << newData->b << " " << newData->c << std::endl;
+
 	return (0);
 }
